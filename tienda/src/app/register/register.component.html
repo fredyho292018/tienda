@@ -1,0 +1,43 @@
+<div class="alert alert-success" role="alert" *ngIf="successMsg">
+  {{ successMsg }}
+</div>
+<div class="alert alert-danger" role="alert" *ngIf="errorMsg">
+  {{ errorMsg }}
+</div>
+<form [formGroup]="form" (ngSubmit)="registerOnSubmit()" novalidate>
+  
+  <div class="form-row">
+      <div class="form-group col-md-12">
+          <label for="correo">Correo</label>
+          <input type="text" class="form-control" id="correo" formControlName="correo"
+                 [ngClass]="{'is-invalid': (isSubmitted || form.get('correo').touched) && !form.get('correo').valid}">
+          <div *ngIf="isSubmitted && form.get('correo').errors" class="invalid-feedback">
+            <div *ngIf="form.get('correo').errors['required']">*Correo requerido</div>
+          </div>
+          <div *ngIf="isSubmitted && form.get('correo').errors" class="invalid-feedback">
+            <div *ngIf="form.get('correo').errors['email']">Entre un correo válido</div>
+          </div>
+        </div>
+        <div class="form-group col-md-6">
+          <label for="contrasena">Contraseña</label>
+          <input type="password" class="form-control" id="contrasena" formControlName="contrasena"
+                 [ngClass]="{'is-invalid': (isSubmitted || form.get('contrasena').touched) && !form.get('contrasena').valid}">
+          <div *ngIf="isSubmitted && form.get('contrasena').errors" class="invalid-feedback">
+            <div *ngIf="form.get('contrasena').errors['required']">*Contraseña requerido</div>
+          </div>
+        </div>
+        <div class="form-group col-md-6">
+          <label for="confcontrasena">Confirmar contraseña</label>
+          <input type="password" class="form-control" id="confcontrasena" formControlName="confcontrasena"
+                 [ngClass]="{'is-invalid': (isSubmitted || form.get('confcontrasena').touched) && !form.get('confcontrasena').valid}">
+          <div *ngIf="isSubmitted && form.get('confcontrasena').errors" class="invalid-feedback">
+            <div *ngIf="form.get('confcontrasena').errors['required']">*Confirmar contraseña requerido</div>
+            <div *ngIf="form.get('confcontrasena').errors['ConfirmPassword']">No coinciden las contraseñas</div>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary" [class.disabled]="isSubmitted && form.invalid">
+          <fa-icon icon="save"></fa-icon> Guardar
+        </button>
+  </div>
+
+</form>

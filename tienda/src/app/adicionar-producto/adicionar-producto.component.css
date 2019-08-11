@@ -1,0 +1,17 @@
+.card {
+    width: 600px;
+}
+
+.jun {
+    display: flex;
+    justify-content: space-between;
+    padding: 0px;
+}
+
+.margin-button {
+    margin-bottom: 25px;
+}
+
+input .ocultar {
+    display: none;
+}

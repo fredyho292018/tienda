@@ -1,0 +1,88 @@
+<div class="alert alert-danger" role="alert" *ngIf="errorMsg">
+    {{errorMsg}}
+</div>
+<div *ngIf="errorMsg == ''">
+
+    <div class="d-flex align-items-center" *ngIf="isLoading">
+        <strong>Cargando productos...</strong>
+        <div class="spinner-border text-primary ml-auto" role="status" aria-hidden="true"></div>
+    </div>
+
+    <div *ngIf="isLoading == false">
+        <h6 class="mb-5">Productos</h6>
+        <div class="bus-add">
+            <form class="bus" [formGroup]="form" (ngSubmit)="searchOnSubmit()" novalidate>
+
+                <div class="form-row">
+                    <div class="input-group mb-3 col-md-6">
+                        <input type="text" class="form-control" placeholder="Nombre" formControlName="nombre" [ngClass]="{'is-invalid': (isSubmitted || form.get('nombre').touched) && !form.get('nombre').valid}">
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-outline-primary" tooltip="Buscar" placement="top" show-delay="500" [class.disabled]="isSubmitted && form.invalid">
+                              <fa-icon icon="search"></fa-icon>
+                            </button>
+                        </div>
+                    </div>
+                    <div *ngIf="isSubmitted && form.get('nombre').errors" class="invalid-feedback">
+                        <div *ngIf="form.get('nombre').errors['pattern']">Entre un nombre válido</div>
+                    </div>
+                </div>
+
+
+            </form>
+            <div *ngIf="authService.isAdmin()" class="col-3  add">
+
+                <!-- <div class="list-group btn-danger">
+                    <a class="list-group-item list-group-item-action" [routerLink]="[ '/add-producto', 'create' ]">
+                        <fa-icon icon="plus"></fa-icon> Adicionar producto
+                    </a>
+                </div> -->
+                <button type="button" class="btn btn-success" [routerLink]="[ '/add-producto', 'create' ]"><fa-icon icon="plus" style="margin-right: 10px;"></fa-icon>Adicionar producto</button>
+            </div>
+        </div>
+
+        <hr>
+
+
+        <div class="row" infiniteScroll [infiniteScrollDistance]="2" (scrolled)="onScroll()">
+            <!-- rounded-0 shadow-sm -->
+            <!-- <div class="card border-light" style="width: 18rem;" *ngFor="let item of productos | paginate: config"> -->
+            <div class="card border-light" style="width: 18rem;" *ngFor="let item of productos">
+                <div class="text-center">
+                    <!-- <img src="http://localhost:81/rest/public/img/productos/{{item.codigo}}.jpg" class="card-img-top" alt="..."> -->
+
+                    <img src="http://83.51.149.49:201/tienda/rest/public/img/productos/{{item.codigo}}.jpg" class="card-img-top" alt="...">
+                </div>
+                <div class="card-body text-center">
+                    <h5 class="card-title">{{item.producto}}</h5>
+                    <p class="card-text">{{item.precio_compra | currency:'EUR'}}</p>
+                </div>
+                <div class="card-footer bg-transparent border-dark text-center">
+                    <!-- <button *ngIf="!authService.isAdmin()" type="button" class="btn btn-danger rounded-pill" tooltip="Añadir al carrito" placement="top" show-delay="500" (click)="addProductoCarro(item)"> -->
+                    <button *ngIf="authService.isLoggedIn() && authService.isAdmin()" type="button" class="btn rounded-pill btn-light mr-2" tooltip="Editar" placement="top" show-delay="500" [routerLink]="[ '/add-producto', 'edit', { codigo: item.codigo, producto: item.producto, linea: item.linea, proveedor: item.proveedor, descripcion: item.descripcion, precio_compra: item.precio_compra } ]">
+                            <fa-icon  icon="pencil-alt"></fa-icon>
+                    </button>
+                    <button type="button" class="btn btn-light rounded-pill" tooltip="Añadir al carrito" placement="top" show-delay="500" (click)="addProductoCarro(item)">
+                            <fa-icon icon="shopping-bag"></fa-icon>
+                       </button>
+                    <button type="button" class="btn btn-light rounded-pill " tooltip="Ver" placement="top" show-delay="500" (click)="open(item)">
+                        <fa-icon icon="eye"></fa-icon>
+                   </button>
+                    <!-- <button class="btn  rounded-pill ml-2 mr-2" tooltip="Ver" placement="top" show-delay="500" (click)="open(item)">
+                        <fa-icon icon="eye"></fa-icon>
+                        </button> -->
+                    <button *ngIf="authService.isLoggedIn() && authService.isAdmin()" type="button" class="btn btn-light ml-2 rounded-pill " tooltip="Eliminar" placement="top" show-delay="500" (click)="eliminarProducto(item.codigo)">
+                        <fa-icon icon="trash-alt"></fa-icon>
+                    </button>
+
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row">
+
+            <button [ngClass]="'no-hidden'" *ngIf="showGoUpButton" class="btn btn-dark" (click)="scrollTop()">Arriba</button>
+        </div>
+    </div>
+
+</div>

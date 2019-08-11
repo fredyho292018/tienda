@@ -1,0 +1,29 @@
+<div class="row">
+    <!-- <div *ngIf="!authService.isAdmin()" class="col-3 p-2"> -->
+    <div class="col-3 p-2">
+        <div class="alert alert-danger" role="alert" *ngIf="errorMsg">
+            {{errorMsg}}
+        </div>
+
+        <div *ngIf="errorMsg == ''">
+            <div class="d-flex align-items-center" *ngIf="isLoading">
+                <strong>Cargando categorías...</strong>
+                <div class="spinner-border text-primary ml-auto" role="status" aria-hidden="true"></div>
+            </div>
+            <div *ngIf="isLoading == false">
+                <h6 class="mb-5">Categorías</h6>
+                <div class="list-group-flush">
+                    <button type="button" class="list-group-item list-group-item-action" *ngFor="let item of lineas" [class.active]="selectedLinea == item" (click)="selectLinea(item)">
+             {{ item.linea }}
+          </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="col-9 p-2">
+        <app-producto [linea]="selectedLinea"></app-producto>
+    </div>
+</div>

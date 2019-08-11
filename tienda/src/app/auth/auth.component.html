@@ -1,0 +1,68 @@
+<div class="container">
+  
+  <div class="d-flex justify-content-center align-items-center">
+
+    <div class="accordion" id="accordionExample">
+      <div class="card">
+        <div class="card-header" id="headingOne">
+          <h2 class="mb-0">
+            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+              Autenticar usuario
+            </button>
+          </h2>
+        </div>
+  
+        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+          <div class="card-body">
+  
+            <div class="alert alert-danger" role="alert" *ngIf="errorMsg">
+              {{ errorMsg }}
+            </div>
+            <form [formGroup]="form" (ngSubmit)="authOnSubmit()" novalidate>
+              <div class="form-group">
+                <label for="correo">Correo</label>
+                <input type="text" class="form-control" id="correo" formControlName="correo"
+                       [ngClass]="{'is-invalid': (isSubmitted || form.get('correo').touched) && !form.get('correo').valid}">
+                <div *ngIf="isSubmitted && form.get('correo').errors" class="invalid-feedback">
+                  <div *ngIf="form.get('correo').errors['required']">*Correo requerido</div>
+                </div>
+                <div *ngIf="isSubmitted && form.get('correo').errors" class="invalid-feedback">
+                  <div *ngIf="form.get('correo').errors['email']">Entre un correo válido</div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="contrasena">Contraseña</label>
+                <input type="password" class="form-control" id="contrasena" formControlName="contrasena"
+                       [ngClass]="{'is-invalid': (isSubmitted || form.get('contrasena').touched) && !form.get('contrasena').valid}">
+                <div *ngIf="isSubmitted && form.get('contrasena').errors" class="invalid-feedback">
+                  <div *ngIf="form.get('contrasena').errors['required']">*Contraseña requerido</div>
+                </div>
+              </div>
+              <button type="submit" class="btn btn-primary" [class.disabled]="isSubmitted && form.invalid">
+                <fa-icon icon="sign-in-alt"></fa-icon>
+                Entrar
+              </button>
+            </form>
+  
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header" id="headingTwo">
+          <h2 class="mb-0">
+            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+              Registrar usuario
+            </button>
+          </h2>
+        </div>
+        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+          <div class="card-body">
+            <app-register></app-register>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>

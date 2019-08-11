@@ -1,0 +1,111 @@
+<div class="container">
+
+    <div class="d-flex justify-content-center align-items-center">
+
+        <div class="card">
+            <div class="card-header">
+                {{formMode}} producto
+            </div>
+            <div class="card-body">
+                <div class="alert alert-success" role="alert" *ngIf="successMsg">
+                    {{ successMsg }}
+                </div>
+                <div class="alert alert-danger" role="alert" *ngIf="errorMsg">
+                    {{ errorMsg }}
+                </div>
+
+                <form [formGroup]="form" (ngSubmit)="addOnSubmit()" novalidate>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <label for="producto">Nombre</label>
+                            <input type="text" class="form-control" id="producto" formControlName="producto" [ngClass]="{'is-invalid': (isSubmitted || form.get('producto').touched) && !form.get('producto').valid}">
+                            <div *ngIf="isSubmitted && form.get('producto').errors" class="invalid-feedback">
+                                <div *ngIf="form.get('producto').errors['required']">*Nombre requerido</div>
+                            </div>
+                            <div *ngIf="isSubmitted && form.get('producto').errors" class="invalid-feedback">
+                                <div *ngIf="form.get('producto').errors['pattern']">Entre un nombre válido</div>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="codigo">Código</label>
+                            <input type="text" class="form-control" id="codigo" formControlName="codigo" [ngClass]="{'is-invalid': (isSubmitted || form.get('codigo').touched) && !form.get('codigo').valid}">
+                            <div *ngIf="isSubmitted && form.get('codigo').errors" class="invalid-feedback">
+                                <div *ngIf="form.get('codigo').errors['required']">*Código requerido</div>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="proveedor">Proveedor</label>
+                            <input type="text" class="form-control" id="proveedor" formControlName="proveedor" [ngClass]="{'is-invalid': (isSubmitted || form.get('proveedor').touched) && !form.get('proveedor').valid}">
+                            <div *ngIf="isSubmitted && form.get('proveedor').errors" class="invalid-feedback">
+                                <div *ngIf="form.get('proveedor').errors['required']">*Proveedor requerido</div>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="precio_compra">Precio</label>
+                            <input type="text" class="form-control" id="precio_compra" formControlName="precio_compra" [ngClass]="{'is-invalid': (isSubmitted || form.get('precio_compra').touched) && !form.get('precio_compra').valid}">
+                            <div *ngIf="isSubmitted && form.get('precio_compra').errors" class="invalid-feedback">
+                                <div *ngIf="form.get('precio_compra').errors['required']">*Precio requerido</div>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="linea">Categorías</label>
+                            <select class="custom-select" formControlName="linea" (change)="selectOnChange($event)" [ngClass]="{'is-invalid': (isSubmitted || form.get('linea').touched) && !form.get('linea').valid}">
+                      <option value="">--Seleccione--</option>
+                      <option *ngFor="let linea of lineas" [value]="linea.linea">{{linea.linea}}</option>
+                    </select>
+                            <div *ngIf="isSubmitted && form.get('linea').errors" class="invalid-feedback">
+                                <div *ngIf="form.get('linea').errors['required']">*Categoría requerido</div>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label for="descripcion">Descripción</label>
+                            <textarea class="form-control" id="descripcion" formControlName="descripcion" [ngClass]="{'is-invalid': (isSubmitted || form.get('descripcion').touched) && !form.get('descripcion').valid}"></textarea>
+                            <div *ngIf="isSubmitted && form.get('descripcion').errors" class="invalid-feedback">
+                                <div *ngIf="form.get('descripcion').errors['required']">*Descripción requerido</div>
+                            </div>
+                        </div>
+                        <!-- <form [formGroup]="form1" (ngSubmit)="onSubmit()">
+
+                            <input type="file" class="ocultar" name="imagen" (change)="onFileSelect($event)" />
+                            <button type="submit" class="btn btn-primary">Upload</button>
+
+                        </form> -->
+                        <form [formGroup]="form1" class="col-md-12" (ngSubmit)="onSubmit()">
+                            <div class="input-group margin-button  ">
+                                <button type="submit" class="btn btn-light">
+                                        <fa-icon icon="image"></fa-icon> 
+                                    Subir
+                                </button>
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" name="imagen" browse="cargar" (change)="onFileSelect($event)">
+                                    <label class="custom-file-label" for="inputGroupFile01">{{imagen}}</label>
+                                </div>
+                            </div>
+                        </form>
+
+                        <img class="col-md-12" style="margin-bottom: 10px;margin-top: 10px; width: 468px;" [src]="imgURL" *ngIf="imgURL">
+
+
+                    </div>
+                    <div class="jun">
+                        <button type="submit" class="btn btn-primary" [class.disabled]="isSubmitted && form.invalid">
+                                    <fa-icon icon="{{editing ? 'pencil-alt': 'save'}}"></fa-icon> {{formMode}}
+                        </button>
+                        <button type="submit" class="btn btn-secondary" [routerLink]="[ '/store']" [class.disabled]="isSubmitted && form.invalid">
+                            <fa-icon icon="ban"></fa-icon> Cancelar
+                        </button>
+
+                    </div>
+
+
+
+
+
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+</div>
